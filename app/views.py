@@ -64,9 +64,9 @@ def upload():
         ))
         
         return jsonify(
-            message = "File upload Successful",
-            filesname = photo.filename,
-            description = form.description)
+            'message' = "File upload Successful",
+            'filename' = filename,
+            'description' = form.description)
     else:
         form_errors(form)
 

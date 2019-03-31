@@ -28,6 +28,56 @@ Vue.component('app-footer', {
     `
 });
 
+onst UploadForm = Vue.component('upload-form', {
+    template: `
+    <div>
+        <h1 class='mb-4'>Upload Form</h1>
+        <form id='uploadForm' @submit.prevent='uploadPhoto' enctype='multipart/form-data' novalidate>
+            <div class='form-group'>
+                <label for='description'>Description</label>
+                <textarea id='description'class='form-control' name='description'></textarea>
+            </div>
+            
+            <div class='form-group'>
+                <label for='photo'>Photo Upload</label>
+                <input type='file' id='photo' class='form-control file-input' name='photo'>
+            </div>
+            <button type='submit' class='btn btn-primary'>Submit</button>
+        </form>
+    </div>
+    `,
+    methods: {
+        uploadPhoto: function() {
+            let uploadForm = document.getElementById('uploadForm');
+            let formData = new FormData(uploadForm);
+            
+            fetch('/api/upload', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': token
+                },
+                credentials: 'same-origin'
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(jsonResponse) {
+                console.log(jsonResponse)
+            })
+            .catch(function(error) {
+                console.log(error)
+            })
+        }
+    },
+    data: function() {
+        return {
+            errors: [],
+            message: ''
+        }
+    },
+})
+
 const Home = Vue.component('home', {
    template: `
     <div class="jumbotron">
